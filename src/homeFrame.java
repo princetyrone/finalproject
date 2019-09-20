@@ -50,7 +50,7 @@ public class homeFrame extends javax.swing.JFrame {
     public homeFrame(String name) {
         initComponents();this.setLocationRelativeTo(null);
         
-        yourname.setText("User: "+name);showProds();
+        yourname.setText("Welcome: "+name);showProds();
     }
 
     /**

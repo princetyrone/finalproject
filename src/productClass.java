@@ -18,15 +18,12 @@ import java.util.logging.Logger;
  * @author Acer
  */
 public class productClass {
-     String forname = "com.mysql.jdbc.Driver";
-    String driver = "jdbc:mysql://localhost/bsit23";
-    String users_name = "root";
-    String users_pass ="";
-    
+
+    connect conn = new connect();
     public int addProduct(String product, int quantity, float price){int x=0;
          try {
-             Class.forName(forname);
-             Connection con = DriverManager.getConnection(driver,users_name,users_pass);
+             Class.forName(conn.forname);
+             Connection con = DriverManager.getConnection(conn.driver,conn.users_name,conn.users_pass);
              PreparedStatement ps = con.prepareStatement("select * from product where prod_name = ? and prod_price =?");
              ps.setString(1, product);
              ps.setFloat(2, price);
@@ -54,5 +51,24 @@ public class productClass {
          }
          return x;
     }
+    
+    
+    public int removeProduct(int id){int x=0;
+         try {
+             Class.forName(conn.forname);
+             Connection con = DriverManager.getConnection(conn.driver,conn.users_name,conn.users_pass);
+             PreparedStatement ps = con.prepareStatement("delete from product where prod_id = ?");
+             ps.setInt(1, id);
+             x = ps.executeUpdate();
+             
+         } catch (ClassNotFoundException ex) {
+             Logger.getLogger(productClass.class.getName()).log(Level.SEVERE, null, ex);
+         } catch (SQLException ex) {
+             Logger.getLogger(productClass.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         return x;
+    }
+    
+    
     
 }

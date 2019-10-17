@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 public class productClass {
 
     connect conn = new connect();
+    connections cn = new connections();
     public int addProduct(String product, int quantity, float price){int x=0;
          try {
              Class.forName(conn.forname);
@@ -67,6 +68,23 @@ public class productClass {
              Logger.getLogger(productClass.class.getName()).log(Level.SEVERE, null, ex);
          }
          return x;
+    }
+    
+    
+    public void edit(int id, String product, float price){
+        try {
+            Class.forName(cn.forname);
+            Connection con = cn.getConnection();
+            PreparedStatement ps = con.prepareStatement("update product set prod_name = ?, prod_price = ? where prod_id = ?");
+            ps.setString(1,product );
+            ps.setFloat(2, price);
+            ps.setInt(3, id);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(productClass.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(productClass.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     

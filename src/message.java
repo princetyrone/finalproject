@@ -35,4 +35,9 @@ public class message {
        return JOptionPane.showConfirmDialog(a, message,"message",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
     }
     
+    public int confirmmessage(Component a, String message){
+        
+       return JOptionPane.showConfirmDialog(a, message,"message",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+    }
+    
 }

@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
  * @author Acer
  */
 public class loginFrame extends javax.swing.JFrame {
+    message show = new message();
 angSystem ang_system = new angSystem();
 loginClass Ma_Ano_Ka = new loginClass();
     /**
@@ -233,7 +234,10 @@ else if(x==1){String name = Ma_Ano_Ka.pangalan;
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-  ang_system.eCloseNaSubong();     // TODO add your handling code here:
+int x = show.confirmmessage(this, "Are you sure to close this program.?");
+if(x==0){    
+        ang_system.eCloseNaSubong(); 
+}// TODO add your handling code here:
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed

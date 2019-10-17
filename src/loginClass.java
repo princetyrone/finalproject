@@ -16,10 +16,11 @@ import java.sql.SQLException;
  * @author Acer
  */
 public class loginClass {
-      String forname = "com.mysql.jdbc.Driver";
-    String driver = "jdbc:mysql://localhost/bsit23";
-    String users_name = "root";
-    String users_pass ="";
+    connections cn = new connections();
+      String forname = cn.forname;
+    String driver = cn.url;
+    String users_name = cn.un;
+    String users_pass =cn.up;
     String pangalan ="";
     public int Ma_LOGin_Ko(String username, String password){
       int x=0;

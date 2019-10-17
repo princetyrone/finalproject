@@ -18,10 +18,11 @@ import java.util.logging.Logger;
  * @author Acer
  */
 public class registerClass {
-    String forname = "com.mysql.jdbc.Driver";
-    String driver = "jdbc:mysql://localhost/bsit23";
-    String users_name = "root";
-    String users_pass ="";
+    connections cn = new connections();
+      String forname = cn.forname;
+    String driver = cn.url;
+    String users_name = cn.un;
+    String users_pass =cn.up;
     
     public void eh_Rehistro_NaSubong(String firstname, String lastname,String username,String password){
       

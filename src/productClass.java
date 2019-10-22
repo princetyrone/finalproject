@@ -88,5 +88,23 @@ public class productClass {
     }
     
     
+    public void updateQuantity(int id,int qty)
+    {
+        try {
+            Class.forName(cn.forname);
+            Connection con = cn.getConnection();
+            PreparedStatement ps = con.prepareStatement("update product set prod_quantity = (prod_quantity + ?) where prod_id = ?");
+            ps.setInt(1, qty);
+            ps.setInt(2, id);
+            ps.executeUpdate();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(productClass.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(productClass.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        
+    }
+      
+    
     
 }

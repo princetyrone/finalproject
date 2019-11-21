@@ -61,8 +61,16 @@ if(x==0){
 else if(x==-1){
     JOptionPane.showMessageDialog(rootPane, "Account NOT FOUND.!","Message",JOptionPane.ERROR_MESSAGE);
 }
-else if(x==1){String name = Ma_Ano_Ka.pangalan;
+else if(x==1){
+    String name = Ma_Ano_Ka.pangalan;
+    int klase = Ma_Ano_Ka.type;
+    
+    if(klase==0){
     new homeFrame(name).setVisible(true); this.setVisible(false);
+    }
+    else{
+        
+    }
 }
       }
     }    

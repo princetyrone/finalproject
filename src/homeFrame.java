@@ -25,7 +25,7 @@ import swings.components;
  * @author Acer
  */
 
-public class homeFrame extends javax.swing.JFrame {message popUp = new message();
+public final class homeFrame extends javax.swing.JFrame {message popUp = new message();
 int noSelected = -1;
 int activity =0;
 int prodId=0;
@@ -48,11 +48,12 @@ int prodId=0;
         addprod.setForeground(Color.black);
     }
     
-    public void showProds(){searchfield.setText("");
+    public void showProds(String key){
      try {
          Class.forName(forname);
          Connection con = DriverManager.getConnection(driver,users_name,users_pass);
-         PreparedStatement ps = con.prepareStatement("select * from product");
+         PreparedStatement ps = con.prepareStatement("select * from product where prod_name like ?");
+         ps.setString(1, "%"+key+"%");
          ResultSet rs = ps.executeQuery();
          DefaultTableModel tab = (DefaultTableModel) jTable1.getModel(); tab.setRowCount(0);
          while(rs.next()){
@@ -65,17 +66,22 @@ int prodId=0;
      }
     }
     
-    public void search(String product){
+   
+     public void updateQTY(String key){
      try {
          Class.forName(forname);
          Connection con = DriverManager.getConnection(driver,users_name,users_pass);
-         PreparedStatement ps = con.prepareStatement("select * from product where prod_name like ? or prod_id like ?");
-         ps.setString(1, "%"+product+"%");
-         ps.setString(2, "%"+product+"%");
+         PreparedStatement ps = con.prepareStatement("select * from product where prod_name like ?");
+         ps.setString(1, "%"+key+"%");
          ResultSet rs = ps.executeQuery();
-         DefaultTableModel tab = (DefaultTableModel) jTable1.getModel(); tab.setRowCount(0);
+         DefaultTableModel tab = (DefaultTableModel) jTable1.getModel();
+         int row =0;
          while(rs.next()){
-             tab.addRow(new Object[]{rs.getString("prod_id"),rs.getString("prod_name"),rs.getString("prod_quantity"),rs.getString("prod_price")});
+             String prodname = rs.getString("prod_name");
+             String qty = rs.getString("prod_quantity");
+             jTable1.setValueAt(qty, row, 2);
+             jTable1.setValueAt(prodname, row, 1);
+             row++;
          }
      } catch (ClassNotFoundException ex) {
          Logger.getLogger(homeFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -90,9 +96,26 @@ int prodId=0;
      */
     public homeFrame(String name) {
         initComponents();this.setLocationRelativeTo(null);
-        yourname.setText("Welcome: "+name);showProds();
-        showDateAndTime();
+        yourname.setText("Welcome: "+name);showProds(searchfield.getText());
+        showDateAndTime();th.start();
     }
+    
+    
+    Thread th = new Thread(new Runnable() {
+    @Override
+    public void run() {
+        while(true){
+        updateQTY(searchfield.getText());
+            try {
+                
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(homeFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+});
+            
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -479,7 +502,7 @@ else if(x==2){
     JOptionPane.showMessageDialog(addframe, "Product Modified");
 }
 addframe.setVisible(false);
-showProds();
+showProds(searchfield.getText());
 }
 }
 
@@ -495,7 +518,7 @@ float price = Float.parseFloat(addprice.getValue().toString());
 prod.edit(prodId, prname, price);
 
 addframe.setVisible(false);
-showProds();
+showProds(searchfield.getText());
 }  
 }
     if(activity==3){
@@ -503,7 +526,7 @@ showProds();
     prod.updateQuantity(prodId, newqty );
     popUp.imessage(addframe, "product updated");
     addframe.setVisible(false);
-    showProds();
+    showProds(searchfield.getText());
     
 
 }
@@ -539,7 +562,7 @@ else{
  if(opt==0){
   int x =   prod.removeProduct(id1);
  if(x==1){
-     showProds();
+     showProds(searchfield.getText());
      popUp.imessage(this, "["+pname+"] Deleted");
      
  }
@@ -582,7 +605,7 @@ this.changeColorwhite();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void searchfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchfieldKeyReleased
-this.search(searchfield.getText());        // TODO add your handling code here:
+this.showProds(searchfield.getText());       // TODO add your handling code here:
     }//GEN-LAST:event_searchfieldKeyReleased
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed

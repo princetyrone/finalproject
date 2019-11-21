@@ -22,6 +22,7 @@ public class loginClass {
     String users_name = cn.un;
     String users_pass =cn.up;
     String pangalan ="";
+    int type =0;
     public int Ma_LOGin_Ko(String username, String password){
       int x=0;
         
@@ -37,6 +38,7 @@ public class loginClass {
                  
                  x=1;
                   pangalan = rs.getString("first_name")+" "+rs.getString("last_name");
+                  type = Integer.parseInt(rs.getString("type"));
              }else{
                  x=-1;
              }

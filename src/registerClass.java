@@ -31,7 +31,7 @@ public class registerClass {
             Class.forName(forname);
             Connection con = (Connection) DriverManager.getConnection(driver, users_name, users_pass);
            
-             PreparedStatement ps = (PreparedStatement) con.prepareStatement("insert into user values(null,?,?,?,md5(?))");
+             PreparedStatement ps = (PreparedStatement) con.prepareStatement("insert into user values(null,?,?,?,md5(?),1)");
              ps.setString(1, firstname);
              ps.setString(2, lastname);
              ps.setString(3, username);

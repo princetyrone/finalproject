@@ -69,7 +69,7 @@ else if(x==1){
     new homeFrame(name).setVisible(true); this.setVisible(false);
     }
     else{
-        
+       new pos().setVisible(true); this.setVisible(false); 
     }
 }
       }

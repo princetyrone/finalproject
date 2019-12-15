@@ -29,6 +29,7 @@ public final class homeFrame extends javax.swing.JFrame {message popUp = new mes
 int noSelected = -1;
 int activity =0;
 int prodId=0;
+int seen =0;
     productClass prod = new productClass();
  String forname = "com.mysql.jdbc.Driver";
     String driver = "jdbc:mysql://localhost/bsit23";
@@ -76,12 +77,23 @@ int prodId=0;
          ResultSet rs = ps.executeQuery();
          DefaultTableModel tab = (DefaultTableModel) jTable1.getModel();
          int row =0;
+         int stat =0;String mess ="";
          while(rs.next()){
              String prodname = rs.getString("prod_name");
              String qty = rs.getString("prod_quantity");
              jTable1.setValueAt(qty, row, 2);
              jTable1.setValueAt(prodname, row, 1);
              row++;
+             int qqty = Integer.parseInt(qty);
+             if(qqty<=5&&seen==0){
+                 mess = mess+"\nLow Quantity -- >"+prodname+" ("+qty+")";
+                 stat =-1;
+             }
+             
+             if(stat==-1){
+                 notifframe.setVisible(true); notifframe.setLocationRelativeTo(this);
+                 messerea.setText(mess);
+             }
          }
      } catch (ClassNotFoundException ex) {
          Logger.getLogger(homeFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -105,9 +117,9 @@ int prodId=0;
     @Override
     public void run() {
         while(true){
-        updateQTY(searchfield.getText());
+        
             try {
-                
+                updateQTY(searchfield.getText());
                 Thread.sleep(1000);
             } catch (InterruptedException ex) {
                 Logger.getLogger(homeFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,6 +151,13 @@ int prodId=0;
         jLabel3 = new javax.swing.JLabel();
         cqty = new javax.swing.JLabel();
         prodlab = new javax.swing.JLabel();
+        notifframe = new javax.swing.JFrame();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        messerea = new javax.swing.JTextArea();
+        jButton7 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -284,6 +303,83 @@ int prodId=0;
             .addGroup(addframeLayout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 1, Short.MAX_VALUE))
+        );
+
+        notifframe.setMinimumSize(new java.awt.Dimension(400, 330));
+        notifframe.setUndecorated(true);
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jPanel6.setBackground(new java.awt.Color(0, 0, 0));
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel5.setText("NOTIFICATIONS");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        messerea.setEditable(false);
+        messerea.setColumns(20);
+        messerea.setRows(5);
+        jScrollPane2.setViewportView(messerea);
+
+        jButton7.setText("OKAY");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout notifframeLayout = new javax.swing.GroupLayout(notifframe.getContentPane());
+        notifframe.getContentPane().setLayout(notifframeLayout);
+        notifframeLayout.setHorizontalGroup(
+            notifframeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        notifframeLayout.setVerticalGroup(
+            notifframeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(notifframeLayout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -631,6 +727,10 @@ this.changeColorBlack();
 
 }        // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+notifframe.setVisible(false); seen=1;        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton7ActionPerformed
 mySystem windows = new mySystem();
     /**
      * @param args the command line arguments
@@ -718,16 +818,23 @@ mySystem windows = new mySystem();
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextArea messerea;
+    private javax.swing.JFrame notifframe;
     private javax.swing.JLabel prodlab;
     private javax.swing.JTextField searchfield;
     private javax.swing.JLabel timefield;
